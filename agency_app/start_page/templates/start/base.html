@@ -29,10 +29,10 @@
               class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a class="dropdown-item" href="#">Профиль</a></li>
-            <li><a class="dropdown-item" href="#">Меню</a></li>
-            <li><a class="dropdown-item" href="#">Авторизация</a></li>
-            <li><a class="dropdown-item" href="#">Регистрация</a></li>
-            <li><a class="dropdown-item" href="#">Выход</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('start.begin_page') }}">Меню</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('authentication.login_page') }}">Авторизация</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('authentication.register_page') }}">Регистрация</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('authentication.logout_page') }}">Выход</a></li>
           </ul>
         </li>
       </ul>
