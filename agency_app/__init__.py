@@ -21,5 +21,7 @@ db.Model.metadata.reflect(db.engine)
 
 # Подключение узлов с методами к приложению
 # from app.module import route
+from agency_app.start_page.start_page import start
 
 # app.register_blueprint(route)
+app.register_blueprint(start)
