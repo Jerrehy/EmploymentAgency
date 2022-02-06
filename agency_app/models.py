@@ -82,7 +82,7 @@ class SystemUser(db.Model, UserMixin):
 
     @staticmethod
     def get_user_by_fio(fio):
-        return SystemUser.query.filter_by(login=fio).first()
+        return SystemUser.query.filter_by(fio=fio).first()
 
     @staticmethod
     def add_system_user(fio, phone_number, birthday, login, password, id_role_user, photo=None):
