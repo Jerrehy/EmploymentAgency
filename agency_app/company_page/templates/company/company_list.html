@@ -1,0 +1,72 @@
+<!-- Страница с расписанием -->
+<!-- Подключение шаблона-фундамента для страницы -->
+{% extends 'start/base.html' %}
+{% block title %}
+Список компаний
+{% endblock %}
+<!-- Оформление информационного блока -->
+{% block content %}
+<div class="row" style="margin-top:20px; margin-left:20px">
+   <div class="col-8">
+      <h2>Компании в поиске</h2>
+      <br>
+      <table id="project" class="table table-hover table-bordered table-info table-striped">
+         <thead>
+            <tr>
+               <th scope="col">Название компании</th>
+               <th scope="col">Рабочая отрасль</th>
+               <th scope="col">Лого компании</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for company in all_companies %}
+            <tr>
+               <td>{{ company.Company.name_company }}</td>
+               <td>{{ company.Industry.name_indusrty }}</td>
+               <td>{{ company.Company.logo }}</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      
+   </div>
+</div>
+{% endblock %}
+
+<!-- Скрипт для динамической таблицы: фильтрация, сортировка-->
+{% block scripts %}
+<script>
+   $(document).ready(function () {
+      $("#project").DataTable(
+         {
+            columns: [
+               { orderable: true, searchable: true },
+               { orderable: true, searchable: true },
+               { orderable: true, searchable: true }, 
+            ],
+            language: {
+               "processing": "Подождите...",
+               "search": "Поиск:",
+               "lengthMenu": "Показать _MENU_ записей",
+               "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+               "infoEmpty": "Записи с 0 до 0 из 0 записей",
+               "infoFiltered": "(отфильтровано из _MAX_ записей)",
+               "infoPostFix": "",
+               "loadingRecords": "Загрузка записей...",
+               "zeroRecords": "Записи отсутствуют.",
+               "emptyTable": "В таблице отсутствуют данные",
+               "paginate": {
+                  "first": "Первая",
+                  "previous": "Предыдущая",
+                  "next": "Следующая",
+                  "last": "Последняя"
+               },
+               "aria": {
+                  "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                  "sortDescending": ": активировать для сортировки столбца по убыванию"
+               }
+            }
+         });
+   });
+</script>
+{% endblock %}

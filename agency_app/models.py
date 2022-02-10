@@ -11,9 +11,16 @@ def load_user(user_id):
     return SystemUser.query.get(int(user_id))
 
 
+# Таблица со списком компаний
 class Company(db.Model):
     __tablename__ = 'company'
     __table_args__ = {'extend_existing': True}
+
+    @staticmethod
+    def get_all_companies():
+        query = db.session.query(Company, Industry)
+        query = query.outerjoin(Industry, Company.id_industry == Industry.id_industry)
+        return query.all()
 
 
 class CompanyHirer(db.Model):

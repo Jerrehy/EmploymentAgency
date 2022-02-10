@@ -3,13 +3,16 @@ from agency_app.models import SystemUser, RoleUser
 from agency_app.forms import RegisterForm, LoginForm
 from flask_login import login_user, logout_user
 
+# Создание с логикой регистрации, авторизации и выхода
 authentication = Blueprint('authentication', __name__, template_folder="templates")
 
 
 # Маршрут с логикой организации регистрации на сайте через форму с ошибками и добавлением в БД
 @authentication.route('/register', methods=['GET', 'POST'])
 def register_page():
+    # Форма с регистрацией
     reg_form = RegisterForm()
+    # Список со всеми ролями
     app_roles = RoleUser.get_all_roles()
 
     reg_form.role.choices = [i.name_role_user for i in app_roles]
@@ -19,9 +22,8 @@ def register_page():
         role_for_add = RoleUser.get_role_by_name(reg_form.role.data)
 
         SystemUser.add_system_user(reg_form.fio.data, reg_form.phone_number.data, reg_form.birthday.data,
-                                   reg_form.login.data, reg_form.password1.data, role_for_add.id_role_user)
-
-        # reg_form.user_photo.data
+                                   reg_form.login.data, reg_form.password1.data, role_for_add.id_role_user,
+                                   reg_form.user_photo.data)
 
         return redirect(url_for('authentication.login_page'))
 
@@ -48,8 +50,8 @@ def login_page():
             if attempted_user.check_password_correction(attempted_password=log_form.password.data):
                 login_user(attempted_user)
                 flash(f'Вход выполнен успешно! Вы зашли как {attempted_user.login}', category='success')
+                # Запись должности сотрудника
                 session['role'] = attempted_user.id_role_user
-                session['login'] = attempted_user.login
             else:
                 flash('Пароль неверный! Попробуйте снова', category='danger')
 
@@ -68,7 +70,6 @@ def logout_page():
     logout_user()
     # Очистка текущей роли пользователя
     session.pop('role', None)
-    session.pop('login', None)
     # Очистка куки с дополнительными данными о пользователе
     session.clear()
 
