@@ -13,6 +13,7 @@ class RegisterForm(FlaskForm):
         if user:
             raise ValidationError('Такое имя пользователя уже есть! Попробуйте придумать другое')
 
+    # Проверка наличия совпадени ФИО при создании нового пользователя
     def validate_fio(self, fio_to_check):
         fio = SystemUser.get_user_by_fio(fio_to_check.data)
         if fio:
@@ -36,3 +37,11 @@ class LoginForm(FlaskForm):
     login = StringField(label="Логин:", validators=[DataRequired()])
     password = PasswordField(label="Пароль:", validators=[DataRequired()])
     submit = SubmitField(label='Вход')
+
+
+# Форма авторизации на сайте
+class AddCompany(FlaskForm):
+    company_name = StringField(label="Именование компании:", validators=[DataRequired()])
+    name_industry = SelectField(label='Индустрия:', choices=[])
+    logo = StringField(label="Ссылка на лого:")
+    submit_add = SubmitField(label='Добавить')

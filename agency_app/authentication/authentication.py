@@ -52,6 +52,7 @@ def login_page():
                 flash(f'Вход выполнен успешно! Вы зашли как {attempted_user.login}', category='success')
                 # Запись должности сотрудника
                 session['role'] = attempted_user.id_role_user
+                session['login'] = attempted_user.login
             else:
                 flash('Пароль неверный! Попробуйте снова', category='danger')
 
@@ -68,8 +69,8 @@ def login_page():
 def logout_page():
     # Выход пользователя из аккаунта
     logout_user()
-    # Очистка текущей роли пользователя
     session.pop('role', None)
+    session.pop('login', None)
     # Очистка куки с дополнительными данными о пользователе
     session.clear()
 

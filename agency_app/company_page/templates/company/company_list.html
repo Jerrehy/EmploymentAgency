@@ -9,7 +9,11 @@
 <div class="row" style="margin-top:20px; margin-left:20px">
    <div class="col-8">
       <h2>Компании в поиске</h2>
+      {% if session['role'] == 2%}
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ModalAddCompany">Добавить компанию</button>
       <br>
+      <br>
+      {% endif %}
       <table id="project" class="table table-hover table-bordered table-info table-striped">
          <thead>
             <tr>
@@ -22,13 +26,41 @@
             {% for company in all_companies %}
             <tr>
                <td>{{ company.Company.name_company }}</td>
-               <td>{{ company.Industry.name_indusrty }}</td>
+               <td>{{ company.Industry.name_industry }}</td>
                <td>{{ company.Company.logo }}</td>
             </tr>
             {% endfor %}
          </tbody>
       </table>
-      
+   </div>
+</div>
+<div id="ModalAddCompany" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title text-secondary">Добавление нового проекта</h4>
+         </div>
+         <div class="modal-body">
+            <form method="POST" class="form-addding" style="color:black">
+               {{ form_add_company.hidden_tag() }}
+
+               {{ form_add_company.company_name.label() }}
+               {{ form_add_company.company_name(class="form-control") }}
+               
+               {{ form_add_company.name_industry.label() }}
+               {{ form_add_company.name_industry(class="form-control") }}
+
+               {{ form_add_company.logo.label() }}
+               {{ form_add_company.logo(class="form-control") }}
+
+               <br>
+               {{ form_add_company.submit_add(class="btn btn-lg btn-block btn-info") }}
+            </form>
+         </div>
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
    </div>
 </div>
 {% endblock %}
