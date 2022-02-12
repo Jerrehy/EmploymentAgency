@@ -26,7 +26,7 @@ class Company(db.Model):
     # Просмотр информации о компании по её именованию
     @staticmethod
     def get_company_by_name(name_company):
-        Company.query.filter_by(name_company=name_company).first()
+        return Company.query.filter_by(name_company=name_company).first()
 
     # Добавление новой компании
     @staticmethod
@@ -58,6 +58,10 @@ class CompanyHirer(db.Model):
         except:
             db.session.rollback()
             flash("Ошибка привязк нового работодателя к компании", category='danger')
+
+    @staticmethod
+    def get_hirer_by_id(id_user):
+        return CompanyHirer.query.filter_by(id_hirer=id_user).first()
 
 
 # Таблица всех отраслей
@@ -151,14 +155,6 @@ class SystemUser(db.Model, UserMixin):
 
     # Получение информации о пользователе по логину
     @staticmethod
-    def get_user_by_login_with_role(login):
-        query = db.session.query(SystemUser, RoleUser)
-        query = query.join(RoleUser, SystemUser.id_role_user == RoleUser.id_role_user)
-        query = query.filter(SystemUser.login == login )
-        return query.first()
-
-    # Получение информации о пользователе по логину
-    @staticmethod
     def get_user_by_login(login):
         return SystemUser.query.filter_by(login=login).first()
 
@@ -166,6 +162,24 @@ class SystemUser(db.Model, UserMixin):
     @staticmethod
     def get_user_by_fio(fio):
         return SystemUser.query.filter_by(fio=fio).first()
+
+    # Получение информации о пользователе по логину с ролью и компанией
+    @staticmethod
+    def get_user_by_login_with_role(login):
+        query = db.session.query(SystemUser, RoleUser)
+        query = query.join(RoleUser, SystemUser.id_role_user == RoleUser.id_role_user)
+        query = query.filter(SystemUser.login == login)
+        return query.first()
+
+    # Получение информации о пользователе по логину с ролью и компанией
+    @staticmethod
+    def get_user_by_login_with_role_and_hiring(login):
+        query = db.session.query(SystemUser, RoleUser, CompanyHirer, Company)
+        query = query.join(RoleUser, SystemUser.id_role_user == RoleUser.id_role_user)
+        query = query.join(CompanyHirer, CompanyHirer.id_hirer == SystemUser.id_system_user)
+        query = query.join(Company, CompanyHirer.id_company == Company.id_company)
+        query = query.filter(SystemUser.login == login)
+        return query.first()
 
     # Изменение данных о пользователе
     @staticmethod

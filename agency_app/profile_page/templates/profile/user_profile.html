@@ -16,6 +16,24 @@
         <img src="{{activated_user.SystemUser.photo}}" width="300" height="300">
         <br>
         <br>
+        {% if session['role'] == 2: %}
+        {% if activated_user.CompanyHirer: %}
+        <p class="lead font-weight-normal">Компания: {{ activated_user.Company.name_company }}</p>
+        {% else: %}
+        <p class="lead font-weight-normal">Добавьте компанию в разделе компаний или выберите существующую из представленного списка</p>
+        <div style="width: 1000px">
+        <form method="POST" class="form-addding">
+            {{ company_binding_form.hidden_tag() }}
+            {{ company_binding_form.company_name.label() }}
+            {{ company_binding_form.company_name(class="form-control") }}
+            <br>
+            {{ company_binding_form.submit_binding(class="btn btn-lg btn-block btn-info") }}
+        </form>
+        </div>
+        {% endif %}
+        {% endif %}
+        <br>
+        <br>
         <a class="btn btn-lg btn-info" href="{{ url_for('profile.profile_update_view') }}">Изменить профиль</a>
     </div>
 </div>

@@ -1,7 +1,7 @@
 from flask import render_template, Blueprint, redirect, url_for, session
-from agency_app.models import SystemUser
-from agency_app.forms import UpdateUserProfile
-from flask_login import login_required
+from agency_app.models import SystemUser, Company, CompanyHirer
+from agency_app.forms import UpdateUserProfile, CompanyBinding
+from flask_login import login_required, current_user
 
 
 # Создание узла связанного с профилем и его изменением
@@ -9,11 +9,29 @@ profile = Blueprint('profile', __name__, template_folder="templates")
 
 
 # Просмотр информации о пользователе
-@profile.route('/profile_view', methods=['GET'])
+@profile.route('/profile_view', methods=['GET', 'POST'])
 @login_required
 def profile_view():
-    activated_user = SystemUser.get_user_by_login_with_role(session['login'])
-    return render_template('profile/user_profile.html', activated_user=activated_user)
+
+    if CompanyHirer.get_hirer_by_id(current_user.get_id()):
+        activated_user = SystemUser.get_user_by_login_with_role_and_hiring(session['login'])
+    else:
+        activated_user = SystemUser.get_user_by_login_with_role(session['login'])
+
+    company_binding_form = CompanyBinding()
+
+    company_list = Company.get_all_companies()
+    company_binding_form.company_name.choices = [i.Company.name_company for i in company_list]
+
+    if company_binding_form.submit_binding.data:
+        # Поиск компании по названию
+        company_for_binding = Company.get_company_by_name(company_binding_form.company_name.data)
+        # Добавление привязки
+        CompanyHirer.add_company_hirer(company_for_binding.id_company, current_user.get_id())
+        return redirect(url_for('profile.profile_view'))
+
+    return render_template('profile/user_profile.html', activated_user=activated_user,
+                           company_binding_form=company_binding_form)
 
 
 # Обновление профиля пользователя
