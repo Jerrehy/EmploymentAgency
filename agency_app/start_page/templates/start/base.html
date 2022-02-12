@@ -32,7 +32,7 @@
           {% endif %}
           <ul class="dropdown-menu" role="menu">
             {% if current_user.is_authenticated %}
-            <li><a class="dropdown-item" href="#">Профиль</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('profile.profile_view') }}">Профиль</a></li>
             <li><a class="dropdown-item" href="{{ url_for('start.begin_page') }}">Меню</a></li>
             <li><a class="dropdown-item" href="{{ url_for('authentication.logout_page') }}">Выход</a></li>
             {% else %}

@@ -1,6 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateField, FileField, DateTimeField, \
-    SelectField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateField, SelectField
 from wtforms.validators import ValidationError, Length, EqualTo, DataRequired, NumberRange
 from agency_app.models import SystemUser
 
@@ -25,7 +24,7 @@ class RegisterForm(FlaskForm):
     birthday = DateField(label='Дата рождения:', validators=[DataRequired()])
     phone_number = StringField(label='Телефон:')
     role = SelectField(label='Роль на сайте:', choices=[])
-    user_photo = FileField(label='Фото пользователя')
+    user_photo = StringField(label='Ссылка на фото пользователя с размером близким к 300х300')
     login = StringField(label='Логин:', validators=[Length(min=6, max=20), DataRequired()])
     password1 = PasswordField(label='Пароль:', validators=[Length(min=8), DataRequired()])
     password2 = PasswordField(label='Подтвердить пароль:', validators=[EqualTo('password1'), DataRequired()])
@@ -45,3 +44,13 @@ class AddCompany(FlaskForm):
     name_industry = SelectField(label='Индустрия:', choices=[])
     logo = StringField(label="Ссылка на лого:")
     submit_add = SubmitField(label='Добавить')
+
+
+# Форма регистрации на сайте
+class UpdateUserProfile(FlaskForm):
+    # Данные для создания нового пользователя с ограничениями, которые накладываются на таблицу в БД
+    fio = TextAreaField(label='Новое ФИО:')
+    birthday = DateField(label='Новая дата рождения:')
+    phone_number = StringField(label='Новый телефон:')
+    user_photo = StringField(label='Ссылка на новое фото пользователя с размером близким к 300х300')
+    submit_update = SubmitField(label='Обновить данные профиля')

@@ -138,6 +138,14 @@ class SystemUser(db.Model, UserMixin):
 
     # Получение информации о пользователе по логину
     @staticmethod
+    def get_user_by_login_with_role(login):
+        query = db.session.query(SystemUser, RoleUser)
+        query = query.join(RoleUser, SystemUser.id_role_user == RoleUser.id_role_user)
+        query = query.filter(SystemUser.login == login )
+        return query.first()
+
+    # Получение информации о пользователе по логину
+    @staticmethod
     def get_user_by_login(login):
         return SystemUser.query.filter_by(login=login).first()
 

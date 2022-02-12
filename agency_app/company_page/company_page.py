@@ -1,7 +1,6 @@
 from flask import render_template, Blueprint, redirect, url_for, session, flash
-from agency_app.models import Company, Industry, CompanyHirer
+from agency_app.models import Company, Industry
 from agency_app.forms import AddCompany
-from flask_login import current_user
 
 
 # Создание узла связанного с компаниями
