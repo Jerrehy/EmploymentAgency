@@ -42,7 +42,7 @@ def profile_update_view():
             phone_number = activated_user.phone_number
 
         if update_profile_form.user_photo.data:
-            photo = update_profile_form.fio.data
+            photo = update_profile_form.user_photo.data
         else:
             photo = activated_user.photo
 
