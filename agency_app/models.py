@@ -154,6 +154,23 @@ class SystemUser(db.Model, UserMixin):
     def get_user_by_fio(fio):
         return SystemUser.query.filter_by(fio=fio).first()
 
+    # Изменение данных о пользователе
+    @staticmethod
+    def update_system_user(login, fio, phone_number, birthday, photo):
+        try:
+            user_for_update = SystemUser.get_user_by_login(login)
+
+            user_for_update.fio = fio
+            user_for_update.phone_number = phone_number
+            user_for_update.birthday = birthday
+            user_for_update.photo = photo
+
+            db.session.commit()
+            flash("Пользователь был успешно изменён.", category='success')
+        except:
+            db.session.rollback()
+            flash("Произошла ошибка при изменнии пользователя. Повторите попытку.", category='danger')
+
     # Добавление нового пользователя
     @staticmethod
     def add_system_user(fio, phone_number, birthday, login, password, id_role_user, photo=None):

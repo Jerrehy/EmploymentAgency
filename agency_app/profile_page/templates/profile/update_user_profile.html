@@ -11,22 +11,22 @@
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-left bg-dark" style="color:white">
     <div align="center">
         <p class="lead font-weight-normal">
-            ФИО работника: {{ activated_user.SystemUser.fio }}<br>
+            ФИО работника: {{ activated_user.fio }}<br>
             {{ update_profile_form.fio.label() }}
             {{ update_profile_form.fio(class="form-control") }}
         </p>
         <p class="lead font-weight-normal">
-            Номер телефона: {{ activated_user.SystemUser.phone_number }}<br>
+            Номер телефона: {{ activated_user.phone_number }}<br>
             {{ update_profile_form.phone_number.label() }}
             {{ update_profile_form.phone_number(class="form-control") }}
         </p>
         <p class="lead font-weight-normal">
-            Дата рождения: {{ activated_user.SystemUser.birthday }}<br>
+            Дата рождения: {{ activated_user.birthday }}<br>
             {{ update_profile_form.birthday.label() }}
             {{ update_profile_form.birthday(class="form-control") }}
         </p>
         <p class="lead font-weight-normal">
-            Фото работника:<br> <img src="{{activated_user.SystemUser.photo}}" width="300" height="300"> <br> 
+            Фото работника:<br> <img src="{{activated_user.photo}}" width="300" height="300"> <br> 
             {{ update_profile_form.user_photo.label() }}
             {{ update_profile_form.user_photo(class="form-control") }}
         </p>
