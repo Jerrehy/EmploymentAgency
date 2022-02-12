@@ -58,13 +58,18 @@ class Industry(db.Model):
         return Industry.query.filter_by(name_industry=name_industry).first()
 
 
+# Таблица всех доступных должностей
 class JobPosition(db.Model):
     __tablename__ = 'job_position'
     __table_args__ = {'extend_existing': True}
 
+    @staticmethod
+    def get_all_job_positions():
+        return JobPosition.query.all()
+
 
 class JobVacancy(db.Model):
-    __tablename__ = 'job_position'
+    __tablename__ = 'job_vacancy'
     __table_args__ = {'extend_existing': True}
 
 

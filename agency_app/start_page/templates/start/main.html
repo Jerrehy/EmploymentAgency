@@ -25,7 +25,9 @@
                     </td>
                     <td>
                         <a class="btn btn-lg btn-info" href="{{ url_for('company.company_view') }}">Компании</a>
-                        <a class="btn btn-lg btn-info" href="#">Отрасли и должности</a>
+                        <a class="btn btn-lg btn-info"
+                           href="{{ url_for('industry_positions.industry_positions_view') }}">
+                            Отрасли и должности</a>
                     </td>
                  </tr>
               </tbody>
