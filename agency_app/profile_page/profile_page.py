@@ -9,7 +9,7 @@ profile = Blueprint('profile', __name__, template_folder="templates")
 
 
 # Просмотр информации о пользователе
-@profile.route('/profile_view', methods=['GET', 'POST'])
+@profile.route('/profile_view', methods=['GET'])
 @login_required
 def profile_view():
     activated_user = SystemUser.get_user_by_login_with_role(session['login'])

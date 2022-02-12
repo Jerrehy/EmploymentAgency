@@ -28,9 +28,11 @@ from agency_app.authentication.authentication import authentication
 from agency_app.company_page.company_page import company
 from agency_app.industry_positions_page.industry_positions_page import industry_positions
 from agency_app.profile_page.profile_page import profile
+from agency_app.vacancy_page.vacancy_page import vacancy
 
 app.register_blueprint(start)
 app.register_blueprint(authentication)
 app.register_blueprint(company)
 app.register_blueprint(industry_positions)
 app.register_blueprint(profile)
+app.register_blueprint(vacancy)

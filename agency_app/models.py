@@ -86,9 +86,22 @@ class JobPosition(db.Model):
         return JobPosition.query.all()
 
 
+# Таблица со всеми вакансиями
 class JobVacancy(db.Model):
     __tablename__ = 'job_vacancy'
     __table_args__ = {'extend_existing': True}
+
+    # Возврат списка всех вакансий со всей информацией
+    @staticmethod
+    def get_all_vacancy():
+        query = db.session.query(JobVacancy, JobPosition, CompanyHirer, Company, Industry, SystemUser)
+        query = query.join(JobPosition, JobPosition.id_job_position == JobVacancy.id_job_position)
+        query = query.join(CompanyHirer)
+        query = query.join(Company, Company.id_company == CompanyHirer.id_company)
+        query = query.join(Industry, Industry.id_industry == Company.id_industry)
+        query = query.join(SystemUser, CompanyHirer.id_hirer == SystemUser.id_system_user)
+
+        return query.all()
 
 
 class Resume(db.Model):
