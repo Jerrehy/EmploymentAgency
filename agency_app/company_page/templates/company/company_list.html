@@ -27,7 +27,7 @@
             <tr>
                <td>{{ company.Company.name_company }}</td>
                <td>{{ company.Industry.name_industry }}</td>
-               <td>{{ company.Company.logo }}</td>
+               <td><img src="{{ company.Company.logo }}" width="300" height="300"></td>
             </tr>
             {% endfor %}
          </tbody>
@@ -74,7 +74,7 @@
             columns: [
                { orderable: true, searchable: true },
                { orderable: true, searchable: true },
-               { orderable: true, searchable: true }, 
+               { orderable: false, searchable: false }, 
             ],
             language: {
                "processing": "Подождите...",

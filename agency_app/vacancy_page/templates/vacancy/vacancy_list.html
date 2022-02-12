@@ -7,8 +7,13 @@
 <!-- Оформление информационного блока -->
 {% block content %}
 <div class="row" style="margin-top:20px; margin-left:20px">
-   <div class="col-10">
+   <div class="col-12">
       <h2>Список выложенных вакансий</h2>
+      {% if session['role'] == 2%}
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ModalAddVacancy">Добавить вакансию</button>
+      <br>
+      <br>
+      {% endif %}
       <table id="project" class="table table-hover table-bordered table-info table-striped">
          <thead>
             <tr>
@@ -28,13 +33,39 @@
                <td>{{ vacancy.Industry.name_industry }}</td>
                <td><img src="{{ vacancy.Company.logo }}" width="300" height="300"></td>
                <td>{{ vacancy.SystemUser.fio }}</td>
-               <td>{{ company.SystemUser.phone_number }}</td>
-               <td>{{ company.JobPosition.name_job_position }}</td>
-               <td>{{ company.JobVacancy.wage }}</td>
+               <td>{{ vacancy.SystemUser.phone_number }}</td>
+               <td>{{ vacancy.JobPosition.name_job_position }}</td>
+               <td>{{ vacancy.JobVacancy.wage }}</td>
             </tr>
             {% endfor %}
          </tbody>
       </table>
+   </div>
+</div>
+<div id="ModalAddVacancy" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title text-secondary">Добавление новой вакансии</h4>
+         </div>
+         <div class="modal-body">
+            <form method="POST" class="form-addding" style="color:black">
+               {{ add_form_vacancy.hidden_tag() }}
+
+               {{ add_form_vacancy.name_job_position.label() }}
+               {{ add_form_vacancy.name_job_position(class="form-control") }}
+               
+               {{ add_form_vacancy.salary.label() }}
+               {{ add_form_vacancy.salary(class="form-control") }}
+
+               <br>
+               {{ add_form_vacancy.submit_add(class="btn btn-lg btn-block btn-info") }}
+            </form>
+         </div>
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
    </div>
 </div>
 {% endblock %}
@@ -52,8 +83,7 @@
                { orderable: true, searchable: true },
                { orderable: true, searchable: true },
                { orderable: true, searchable: true },
-               { orderable: true, searchable: true },
-               { orderable: true, searchable: true }  
+               { orderable: true, searchable: true } 
             ],
             language: {
                "processing": "Подождите...",

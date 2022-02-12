@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateField, SelectField
-from wtforms.validators import ValidationError, Length, EqualTo, DataRequired, NumberRange
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateField, SelectField, IntegerField
+from wtforms.validators import ValidationError, Length, EqualTo, DataRequired
 from agency_app.models import SystemUser
 
 
@@ -38,7 +38,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField(label='Вход')
 
 
-# Форма авторизации на сайте
+# Форма добавления компании
 class AddCompany(FlaskForm):
     company_name = StringField(label="Именование компании:", validators=[DataRequired()])
     name_industry = SelectField(label='Индустрия:', choices=[])
@@ -60,3 +60,10 @@ class UpdateUserProfile(FlaskForm):
 class CompanyBinding(FlaskForm):
     company_name = SelectField(label='Выбрать компанию', choices=[])
     submit_binding = SubmitField(label='Подтвердить выбор')
+
+
+# Форма добавления вакансии
+class AddVacancy(FlaskForm):
+    name_job_position = SelectField(label='Именование должности:', choices=[])
+    salary = IntegerField(label="Зарплата:")
+    submit_add = SubmitField(label='Добавить')

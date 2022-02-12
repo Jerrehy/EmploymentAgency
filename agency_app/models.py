@@ -36,10 +36,10 @@ class Company(db.Model):
         try:
             db.session.add(new_company)
             db.session.commit()
-            flash("Добавление новой компании", category='success')
+            flash("Добавление новой компании завершено успешно.", category='success')
         except:
             db.session.rollback()
-            flash("Ошибка при добавлении новой компании", category='danger')
+            flash("Ошибка при добавлении новой компании.", category='danger')
 
 
 # Таблица принадлежности работодателей к компании
@@ -54,10 +54,10 @@ class CompanyHirer(db.Model):
         try:
             db.session.add(new_company_hirer)
             db.session.commit()
-            flash("Добавление нового работодателя в компании", category='success')
+            flash("Добавление нового работодателя в компании завершено успешно.", category='success')
         except:
             db.session.rollback()
-            flash("Ошибка привязк нового работодателя к компании", category='danger')
+            flash("Ошибка привязки нового работодателя к компании.", category='danger')
 
     @staticmethod
     def get_hirer_by_id(id_user):
@@ -89,6 +89,10 @@ class JobPosition(db.Model):
     def get_all_job_positions():
         return JobPosition.query.all()
 
+    @staticmethod
+    def get_job_positions_by_name(name_job_position):
+        return JobPosition.query.filter_by(name_job_position=name_job_position).first()
+
 
 # Таблица со всеми вакансиями
 class JobVacancy(db.Model):
@@ -104,8 +108,19 @@ class JobVacancy(db.Model):
         query = query.join(Company, Company.id_company == CompanyHirer.id_company)
         query = query.join(Industry, Industry.id_industry == Company.id_industry)
         query = query.join(SystemUser, CompanyHirer.id_hirer == SystemUser.id_system_user)
-
         return query.all()
+
+    @staticmethod
+    def add_vacancy(id_hirer, id_company, id_job_position, wage):
+        new_vacancy = JobVacancy(id_hirer=id_hirer, id_company=id_company, id_job_position=id_job_position, wage=wage)
+
+        try:
+            db.session.add(new_vacancy)
+            db.session.commit()
+            flash("Добавление новой вакансии завершено успешно.", category='success')
+        except:
+            db.session.rollback()
+            flash("Ошибка при добавлении новой вакансии.", category='danger')
 
 
 class Resume(db.Model):
