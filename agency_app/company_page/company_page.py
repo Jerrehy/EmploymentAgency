@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, redirect, url_for, session, flash
-from agency_app.models import Company, Industry
+from agency_app.models import Company, Industry, CompanyHirer
 from agency_app.forms import AddCompany
+from flask_login import current_user
 
 
 # Создание узла связанного с компаниями
@@ -29,6 +30,7 @@ def company_view():
             else:
                 logo_for_add = None
 
+            # Добавление новой компании
             Company.add_company(form_add_company.company_name.data, industry_for_add.id_industry, logo_for_add)
 
             return redirect(url_for('company.company_view'))

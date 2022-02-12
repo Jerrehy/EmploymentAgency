@@ -16,12 +16,17 @@ class Company(db.Model):
     __tablename__ = 'company'
     __table_args__ = {'extend_existing': True}
 
-    #
+    # Просмотр всех компаний
     @staticmethod
     def get_all_companies():
         query = db.session.query(Company, Industry)
         query = query.outerjoin(Industry, Company.id_industry == Industry.id_industry)
         return query.all()
+
+    # Просмотр информации о компании по её именованию
+    @staticmethod
+    def get_company_by_name(name_company):
+        Company.query.filter_by(name_company=name_company).first()
 
     # Добавление новой компании
     @staticmethod
@@ -37,9 +42,22 @@ class Company(db.Model):
             flash("Ошибка при добавлении новой компании", category='danger')
 
 
+# Таблица принадлежности работодателей к компании
 class CompanyHirer(db.Model):
     __tablename__ = 'company_hirer'
     __table_args__ = {'extend_existing': True}
+
+    @staticmethod
+    def add_company_hirer(id_company, id_hirer):
+        new_company_hirer = CompanyHirer(id_company=id_company, id_hirer=id_hirer)
+
+        try:
+            db.session.add(new_company_hirer)
+            db.session.commit()
+            flash("Добавление нового работодателя в компании", category='success')
+        except:
+            db.session.rollback()
+            flash("Ошибка привязк нового работодателя к компании", category='danger')
 
 
 # Таблица всех отраслей
