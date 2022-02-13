@@ -2,65 +2,40 @@
 <!-- Подключение шаблона-фундамента для страницы -->
 {% extends 'start/base.html' %}
 {% block title %}
-Список компаний
+Мои резюме
 {% endblock %}
 <!-- Оформление информационного блока -->
 {% block content %}
 <div class="row" style="margin-top:20px; margin-left:20px">
-   <div class="col-8">
-      <h2>Компании в поиске</h2>
-      {% if session['role'] == 2%}
-      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ModalAddCompany">Добавить компанию</button>
+   <div class="col-10">
+      <h2>Список моих резюме</h2>
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ModalAddCompany">Добавить резюме</button>
       <br>
       <br>
-      {% endif %}
-      <table id="company" class="table table-hover table-bordered table-info table-striped">
+      <p class="lead font-weight-normal">ФИО соискателя: {{ activated_user.SystemUser.fio }}</p>
+      <p class="lead font-weight-normal">Номер телефона: {{ activated_user.SystemUser.phone_number }}</p>
+      <p class="lead font-weight-normal">Дата рождения: {{ activated_user.SystemUser.birthday }}</p>
+      <p class="lead font-weight-normal">Фото: <br>
+        <img src="{{activated_user.SystemUser.photo}}" width="300" height="300"></p>
+      
+      <table id="project" class="table table-hover table-bordered table-info table-striped">
          <thead>
             <tr>
-               <th scope="col">Название компании</th>
-               <th scope="col">Рабочая отрасль</th>
-               <th scope="col">Лого компании</th>
+               <th scope="col">Должность</th>
+               <th scope="col">Образование</th>  
+               <th scope="col">Стаж работы</th>  
             </tr>
          </thead>
          <tbody>
-            {% for company in all_companies %}
+            {% for my_resume in all_my_resume %}
             <tr>
-               <td>{{ company.Company.name_company }}</td>
-               <td>{{ company.Industry.name_industry }}</td>
-               <td><img src="{{ company.Company.logo }}" width="300" height="300"></td>
+                <td>{{ my_resume.JobPosition.name_job_position }}</td>
+               <td>{{ my_resume.Resume.work_experience }}</td>
+               <td>{{ my_resume.Resume.education }}</td>
             </tr>
             {% endfor %}
          </tbody>
       </table>
-   </div>
-</div>
-<div id="ModalAddCompany" class="modal fade" role="dialog">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h4 class="modal-title text-secondary">Добавление нового проекта</h4>
-         </div>
-         <div class="modal-body">
-            <form method="POST" class="form-addding" style="color:black">
-               {{ form_add_company.hidden_tag() }}
-
-               {{ form_add_company.company_name.label() }}
-               {{ form_add_company.company_name(class="form-control") }}
-               
-               {{ form_add_company.name_industry.label() }}
-               {{ form_add_company.name_industry(class="form-control") }}
-
-               {{ form_add_company.logo.label() }}
-               {{ form_add_company.logo(class="form-control") }}
-
-               <br>
-               {{ form_add_company.submit_add(class="btn btn-lg btn-block btn-info") }}
-            </form>
-         </div>
-      </div>
-      <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-      </div>
    </div>
 </div>
 {% endblock %}
@@ -69,12 +44,12 @@
 {% block scripts %}
 <script>
    $(document).ready(function () {
-      $("#company").DataTable(
+      $("#project").DataTable(
          {
             columns: [
                { orderable: true, searchable: true },
                { orderable: true, searchable: true },
-               { orderable: false, searchable: false }, 
+               { orderable: true, searchable: true }
             ],
             language: {
                "processing": "Подождите...",

@@ -136,6 +136,14 @@ class Resume(db.Model):
         return query.all()
 
     @staticmethod
+    def get_all_resume_by_id(id_system_user):
+        query = db.session.query(Resume, SystemUser, JobPosition)
+        query = query.join(SystemUser, Resume.id_system_user == SystemUser.id_system_user)
+        query = query.join(JobPosition, JobPosition.id_job_position == Resume.id_job_position)
+        query = query.filter(Resume.id_system_user == id_system_user)
+        return query.all()
+
+    @staticmethod
     def add_resume(id_system_user, education, work_experience, id_job_position):
         new_resume = Resume(id_system_user=id_system_user, id_job_position=id_job_position,
                             education=education, work_experience=work_experience)
