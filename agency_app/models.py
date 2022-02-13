@@ -123,9 +123,30 @@ class JobVacancy(db.Model):
             flash("Ошибка при добавлении новой вакансии.", category='danger')
 
 
+# Таблица с информацией о резюме
 class Resume(db.Model):
     __tablename__ = 'resume'
     __table_args__ = {'extend_existing': True}
+
+    @staticmethod
+    def get_all_resume():
+        query = db.session.query(Resume, SystemUser, JobPosition)
+        query = query.join(SystemUser, Resume.id_system_user == SystemUser.id_system_user)
+        query = query.join(JobPosition, JobPosition.id_job_position == Resume.id_job_position)
+        return query.all()
+
+    @staticmethod
+    def add_resume(id_system_user, education, work_experience, id_job_position):
+        new_resume = Resume(id_system_user=id_system_user, id_job_position=id_job_position,
+                            education=education, work_experience=work_experience)
+
+        try:
+            db.session.add(new_resume)
+            db.session.commit()
+            flash("Добавление нового резюме завершено успешно.", category='success')
+        except:
+            db.session.rollback()
+            flash("Ошибка при добавлении нового резюме.", category='danger')
 
 
 # Таблица с ролями пользователей
@@ -133,10 +154,12 @@ class RoleUser(db.Model):
     __tablename__ = 'role_user'
     __table_args__ = {'extend_existing': True}
 
+    # Список всех резюме
     @staticmethod
     def get_all_roles():
         return RoleUser.query.all()
 
+    # Поиск роли по имени
     @staticmethod
     def get_role_by_name(name_role_user):
         return RoleUser.query.filter_by(name_role_user=name_role_user).first()

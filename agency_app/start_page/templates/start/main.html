@@ -21,7 +21,9 @@
                  <tr>
                     <td>
                         <a class="btn btn-lg btn-info" href="{{ url_for('vacancy.vacancy_view') }}">Вакансии</a>
-                        <a class="btn btn-lg btn-info" href="#">Резюме</a>
+                        {% if session['role'] == 2%}
+                        <a class="btn btn-lg btn-info" href="{{ url_for('resume.resume_view') }}">Резюме</a>
+                        {% endif %}
                     </td>
                     <td>
                         <a class="btn btn-lg btn-info" href="{{ url_for('company.company_view') }}">Компании</a>

@@ -67,3 +67,11 @@ class AddVacancy(FlaskForm):
     name_job_position = SelectField(label='Именование должности:', choices=[])
     salary = IntegerField(label="Зарплата:")
     submit_add = SubmitField(label='Добавить')
+
+
+# Форма добавления резюме
+class AddResume(FlaskForm):
+    name_job_position = SelectField(label='Именование должности:', choices=[])
+    education = TextAreaField(label="Образование:")
+    work_experience = IntegerField(label="Опыт работы, лет:")
+    submit_add = SubmitField(label='Добавить')
