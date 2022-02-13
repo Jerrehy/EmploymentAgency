@@ -13,6 +13,7 @@ resume = Blueprint('resume', __name__, template_folder="templates")
 @login_required
 def resume_view():
     if session['role'] == 2:
+        # Вывод списка всех резюме
         all_resume = Resume.get_all_resume()
         return render_template('resume/resume_list.html', all_resume=all_resume)
     else:
@@ -25,21 +26,28 @@ def resume_view():
 @login_required
 def personal_resume_view():
     if session['role'] != 2:
+        # Получение информации о пользователе
         activated_user = SystemUser.get_user_by_login_with_role(session['login'])
+        # Вывод списка резюме пользователя
         all_my_resume = Resume.get_all_resume_by_id(current_user.get_id())
 
+        # Форма для добавления резюме
         add_resume_form = AddResume()
+        # Заполнение формы добавления резюме списком должностей
         positions_for_personal_view = JobPosition.get_all_job_positions()
         add_resume_form.name_job_position.choices = [i.name_job_position for i in positions_for_personal_view]
 
+        # Форма удаления резюме
         del_resume_form = DelResume()
 
+        # Добавление резюме по кнопке
         if add_resume_form.submit_add.data:
             positions_for_personal_add = JobPosition.get_job_positions_by_name(add_resume_form.name_job_position.data)
             Resume.add_resume(current_user.get_id(), add_resume_form.education.data, add_resume_form.work_experience.data,
                               positions_for_personal_add.id_job_position)
             return redirect(url_for('resume.personal_resume_view'))
 
+        # Удаление резюме по кнопке
         elif del_resume_form.submit_del.data:
             Resume.del_resume(del_resume_form.id_resume.data)
             return redirect(url_for('resume.personal_resume_view'))

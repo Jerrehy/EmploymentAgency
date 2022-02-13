@@ -85,10 +85,12 @@ class JobPosition(db.Model):
     __tablename__ = 'job_position'
     __table_args__ = {'extend_existing': True}
 
+    # Возврат списка всех должностей
     @staticmethod
     def get_all_job_positions():
         return JobPosition.query.all()
 
+    # Получение
     @staticmethod
     def get_job_positions_by_name(name_job_position):
         return JobPosition.query.filter_by(name_job_position=name_job_position).first()
@@ -112,6 +114,7 @@ class JobVacancy(db.Model):
             query = query.filter(CompanyHirer.id_hirer == id_hirer)
         return query.all()
 
+    # Метод добавления вакансии
     @staticmethod
     def add_vacancy(id_hirer, id_company, id_job_position, wage):
         new_vacancy = JobVacancy(id_hirer=id_hirer, id_company=id_company, id_job_position=id_job_position, wage=wage)
@@ -124,6 +127,7 @@ class JobVacancy(db.Model):
             db.session.rollback()
             flash("Ошибка при добавлении новой вакансии.", category='danger')
 
+    # Метод удаления вакансии
     @staticmethod
     def del_vacancy(id_vacancy):
         JobVacancy.query.filter_by(id_vacancy=id_vacancy).delete()
@@ -141,6 +145,7 @@ class Resume(db.Model):
     __tablename__ = 'resume'
     __table_args__ = {'extend_existing': True}
 
+    # Метод получения абсолютно всех резюме
     @staticmethod
     def get_all_resume():
         query = db.session.query(Resume, SystemUser, JobPosition)
@@ -148,6 +153,7 @@ class Resume(db.Model):
         query = query.join(JobPosition, JobPosition.id_job_position == Resume.id_job_position)
         return query.all()
 
+    # Метод получения всех резюме по ID пользователя
     @staticmethod
     def get_all_resume_by_id(id_system_user):
         query = db.session.query(Resume, SystemUser, JobPosition)
@@ -156,6 +162,7 @@ class Resume(db.Model):
         query = query.filter(Resume.id_system_user == id_system_user)
         return query.all()
 
+    # Метод добавления резюме
     @staticmethod
     def add_resume(id_system_user, education, work_experience, id_job_position):
         new_resume = Resume(id_system_user=id_system_user, id_job_position=id_job_position,
@@ -169,6 +176,7 @@ class Resume(db.Model):
             db.session.rollback()
             flash("Ошибка при добавлении нового резюме.", category='danger')
 
+    # Методу удаления резюме
     @staticmethod
     def del_resume(id_resume):
         Resume.query.filter_by(id_resume=id_resume).delete()

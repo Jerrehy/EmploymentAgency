@@ -14,7 +14,7 @@ def register_page():
     reg_form = RegisterForm()
     # Список со всеми ролями
     app_roles = RoleUser.get_all_roles()
-
+    # Заполнение формы регистрации списком ролей на сайте
     reg_form.role.choices = [i.name_role_user for i in app_roles]
 
     # Проверка нажатия кнопки "Создать аккаунт"
