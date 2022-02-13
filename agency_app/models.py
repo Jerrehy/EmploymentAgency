@@ -217,7 +217,7 @@ class SystemUser(db.Model, UserMixin):
     def get_id(self):
         return self.id_system_user
 
-    # Получени пароля
+    # Получение пароля
     @property
     def unencrypted_password(self):
         return self.unencrypted_password
