@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, redirect, url_for, session, flash
 from agency_app.models import Resume, SystemUser, JobPosition
-from agency_app.forms import AddResume
+from agency_app.forms import AddResume, DelResume
 from flask_login import login_required, current_user
 
 
@@ -32,14 +32,20 @@ def personal_resume_view():
         positions_for_personal_view = JobPosition.get_all_job_positions()
         add_resume_form.name_job_position.choices = [i.name_job_position for i in positions_for_personal_view]
 
+        del_resume_form = DelResume()
+
         if add_resume_form.submit_add.data:
             positions_for_personal_add = JobPosition.get_job_positions_by_name(add_resume_form.name_job_position.data)
             Resume.add_resume(current_user.get_id(), add_resume_form.education.data, add_resume_form.work_experience.data,
                               positions_for_personal_add.id_job_position)
             return redirect(url_for('resume.personal_resume_view'))
 
+        elif del_resume_form.submit_del.data:
+            Resume.del_resume(del_resume_form.id_resume.data)
+            return redirect(url_for('resume.personal_resume_view'))
+
         return render_template('resume/user_resume.html', all_my_resume=all_my_resume, activated_user=activated_user,
-                               add_resume_form=add_resume_form)
+                               add_resume_form=add_resume_form, del_resume_form=del_resume_form)
     else:
         flash('У вас недостаточно прав для просмотра этой страницы')
         return redirect(url_for('start.begin_page'))

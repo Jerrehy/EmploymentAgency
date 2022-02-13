@@ -32,6 +32,12 @@
                 <td>{{ my_resume.JobPosition.name_job_position }}</td>
                <td>{{ my_resume.Resume.education }}</td>
                <td>{{ my_resume.Resume.work_experience }}</td>
+               <td>
+                  <form method="POST" class="form-addding">
+                     {{ del_resume_form.id_resume(value=my_resume.Resume.id_resume) }}
+                     {{ del_resume_form.submit_del(class="btn btn-lg btn-block btn-danger") }}
+                  </form>
+               </td>
             </tr>
             {% endfor %}
          </tbody>

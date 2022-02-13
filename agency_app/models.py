@@ -169,6 +169,17 @@ class Resume(db.Model):
             db.session.rollback()
             flash("Ошибка при добавлении нового резюме.", category='danger')
 
+    @staticmethod
+    def del_resume(id_resume):
+        Resume.query.filter_by(id_resume=id_resume).delete()
+
+        try:
+            db.session.commit()
+            flash("Удаление резюме было успешно выполнено.", category='success')
+        except:
+            db.session.rollback()
+            flash("Ошибка при удалении резюме.", category='danger')
+
 
 # Таблица с ролями пользователей
 class RoleUser(db.Model):

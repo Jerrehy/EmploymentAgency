@@ -9,7 +9,8 @@
 <div class="row" style="margin-top:20px; margin-left:20px">
    <div class="col-12">
       <h2>Список выложенных вакансий</h2>
-      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ModalAddVacancy">Добавить вакансию</button>
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ModalAddVacancy">Добавить
+         вакансию</button>
       <br>
       <br>
       <table id="project" class="table table-hover table-bordered table-info table-striped">
@@ -21,7 +22,7 @@
                <th scope="col">ФИО работодателя</th>
                <th scope="col">Номер работодателя</th>
                <th scope="col">Должность</th>
-               <th scope="col">Предлагаемая З/П</th>   
+               <th scope="col">Предлагаемая З/П</th>
             </tr>
          </thead>
          <tbody>
@@ -35,10 +36,10 @@
                <td>{{ vacancy.JobPosition.name_job_position }}</td>
                <td>{{ vacancy.JobVacancy.wage }}</td>
                <td>
-               <form method="POST" class="form-addding"> 
-                  {{ del_form_vacancy.id_vacancy(value=vacancy.JobVacancy.id_vacancy) }}
-                  {{ del_form_vacancy.submit_del(class="btn btn-lg btn-block btn-danger") }}
-               </form>
+                  <form method="POST" class="form-addding">
+                     {{ del_form_vacancy.id_vacancy(value=vacancy.JobVacancy.id_vacancy) }}
+                     {{ del_form_vacancy.submit_del(class="btn btn-lg btn-block btn-danger") }}
+                  </form>
                </td>
             </tr>
             {% endfor %}
@@ -58,7 +59,7 @@
 
                {{ add_form_vacancy.name_job_position.label() }}
                {{ add_form_vacancy.name_job_position(class="form-control") }}
-               
+
                {{ add_form_vacancy.salary.label() }}
                {{ add_form_vacancy.salary(class="form-control") }}
 
@@ -87,7 +88,7 @@
                { orderable: true, searchable: true },
                { orderable: true, searchable: true },
                { orderable: true, searchable: true },
-               { orderable: true, searchable: true } 
+               { orderable: true, searchable: true }
             ],
             language: {
                "processing": "Подождите...",
