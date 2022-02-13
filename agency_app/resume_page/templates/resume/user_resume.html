@@ -9,7 +9,7 @@
 <div class="row" style="margin-top:20px; margin-left:20px">
    <div class="col-10">
       <h2>Список моих резюме</h2>
-      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ModalAddCompany">Добавить резюме</button>
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ModalAddResume">Добавить резюме</button>
       <br>
       <br>
       <p class="lead font-weight-normal">ФИО соискателя: {{ activated_user.SystemUser.fio }}</p>
@@ -30,14 +30,43 @@
             {% for my_resume in all_my_resume %}
             <tr>
                 <td>{{ my_resume.JobPosition.name_job_position }}</td>
-               <td>{{ my_resume.Resume.work_experience }}</td>
                <td>{{ my_resume.Resume.education }}</td>
+               <td>{{ my_resume.Resume.work_experience }}</td>
             </tr>
             {% endfor %}
          </tbody>
       </table>
    </div>
 </div>
+<div id="ModalAddResume" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h4 class="modal-title text-secondary">Добавление нового проекта</h4>
+          </div>
+          <div class="modal-body">
+             <form method="POST" class="form-addding" style="color:black">
+                {{ add_resume_form.hidden_tag() }}
+ 
+                {{ add_resume_form.name_job_position.label() }}
+                {{ add_resume_form.name_job_position(class="form-control") }}
+                
+                {{ add_resume_form.education.label() }}
+                {{ add_resume_form.education(class="form-control") }}
+ 
+                {{ add_resume_form.work_experience.label() }}
+                {{ add_resume_form.work_experience(class="form-control") }}
+ 
+                <br>
+                {{ add_resume_form.submit_add(class="btn btn-lg btn-block btn-info") }}
+             </form>
+          </div>
+       </div>
+       <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+       </div>
+    </div>
+ </div>
 {% endblock %}
 
 <!-- Скрипт для динамической таблицы: фильтрация, сортировка-->

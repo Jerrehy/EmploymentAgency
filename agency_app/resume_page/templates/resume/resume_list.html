@@ -16,6 +16,7 @@
                <th scope="col">Номер телефона</th>
                <th scope="col">Дата рождения</th>
                <th scope="col">Должность</th>
+               <th scope="col">Опыт работы</th>
                <th scope="col">Образование</th>
                <th scope="col">Фото</th>   
             </tr>
@@ -26,7 +27,7 @@
                <td>{{ resume.SystemUser.fio }}</td>
                <td>{{ resume.SystemUser.phone_number }}</td>
                <td>{{ resume.SystemUser.birthday }}</td>
-               <td>{{ resume.RoleUser.name_role_user }}</td>
+               <td>{{ resume.JobPosition.name_job_position }}</td>
                <td>{{ resume.Resume.work_experience }}</td>
                <td>{{ resume.Resume.education }}</td>
                <td><img src="{{ resume.SystemUser.photo }}" width="300" height="300"></td>
