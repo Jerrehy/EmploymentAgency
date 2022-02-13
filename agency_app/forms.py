@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateField, SelectField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DateField, SelectField, IntegerField, \
+    HiddenField
 from wtforms.validators import ValidationError, Length, EqualTo, DataRequired
 from agency_app.models import SystemUser
 
@@ -75,3 +76,15 @@ class AddResume(FlaskForm):
     education = TextAreaField(label="Образование:")
     work_experience = IntegerField(label="Опыт работы, лет:")
     submit_add = SubmitField(label='Добавить')
+
+
+# Форма удаления резюме
+class DelResume(FlaskForm):
+    id_resume = HiddenField()
+    submit_del = SubmitField(label='Удалить')
+
+
+# Форма удаления вакансии
+class DelVacancy(FlaskForm):
+    id_vacancy = HiddenField()
+    submit_del = SubmitField(label='Удалить')

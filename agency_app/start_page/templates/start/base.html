@@ -35,6 +35,8 @@
             <li><a class="dropdown-item" href="{{ url_for('profile.profile_view') }}">Профиль</a></li>
             {% if session['role'] != 2: %}
             <li><a class="dropdown-item" href="{{ url_for('resume.personal_resume_view') }}">Мои резюме</a></li>
+            {% else: %}
+            <li><a class="dropdown-item" href="{{ url_for('vacancy.vacancy_hirer_view') }}">Мои вакансии</a></li>
             {% endif %}
             <li><a class="dropdown-item" href="{{ url_for('start.begin_page') }}">Меню</a></li>
             <li><a class="dropdown-item" href="{{ url_for('authentication.logout_page') }}">Выход</a></li>

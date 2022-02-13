@@ -101,13 +101,15 @@ class JobVacancy(db.Model):
 
     # Возврат списка всех вакансий со всей информацией
     @staticmethod
-    def get_all_vacancy():
+    def get_all_vacancy(id_hirer=None):
         query = db.session.query(JobVacancy, JobPosition, CompanyHirer, Company, Industry, SystemUser)
         query = query.join(JobPosition, JobPosition.id_job_position == JobVacancy.id_job_position)
         query = query.join(CompanyHirer)
         query = query.join(Company, Company.id_company == CompanyHirer.id_company)
         query = query.join(Industry, Industry.id_industry == Company.id_industry)
         query = query.join(SystemUser, CompanyHirer.id_hirer == SystemUser.id_system_user)
+        if id_hirer:
+            query = query.filter(CompanyHirer.id_hirer == id_hirer)
         return query.all()
 
     @staticmethod
@@ -121,6 +123,17 @@ class JobVacancy(db.Model):
         except:
             db.session.rollback()
             flash("Ошибка при добавлении новой вакансии.", category='danger')
+
+    @staticmethod
+    def del_vacancy(id_vacancy):
+        JobVacancy.query.filter_by(id_vacancy=id_vacancy).delete()
+
+        try:
+            db.session.commit()
+            flash("Удаление вакансии было успешно выполнено.", category='success')
+        except:
+            db.session.rollback()
+            flash("Ошибка при удалении вакансии.", category='danger')
 
 
 # Таблица с информацией о резюме
